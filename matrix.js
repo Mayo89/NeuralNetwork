@@ -2,14 +2,7 @@ class Matrix{
     constructor(rows,cols){
         this.rows = rows;
         this.cols = cols;
-        this.data = [];
-
-        for(let i = 0; i < this.rows; i++){
-            this.data[i] = [];
-            for(let j = 0; j < this.cols; j++){
-                this.data[i][j] = 0;
-            }
-        }
+        this.data = Array(this.rows).fill().map(() => Array(this.cols).fill(0));
     }
 
     static fromArray(arr){
@@ -35,11 +28,7 @@ class Matrix{
     }
 
     randomise(){
-        for(let i = 0; i < this.rows; i++){
-            for(let j = 0; j < this.cols; j++){
-                this.data[i][j] = Math.random() * 2 - 1;
-            }
-        }
+        return this.map(e => Math.random() * 2 - 1);
     }
 
     static transpose(matrix){
@@ -124,6 +113,19 @@ class Matrix{
                 this.data[i][j] = func(val);
             }
         }
+    }
+
+    static map(matrix, func){
+        let result = new Matrix(matrix.rows, matrix.cols);
+
+        for(let i = 0; i < matrix.rows; i++){
+            for(let j = 0; j < matrix.cols; j++){
+                let val = matrix.data[i][j];
+                result.data[i][j] = func(val);
+            }
+        }
+
+        return result;
     }
 
     print(){
